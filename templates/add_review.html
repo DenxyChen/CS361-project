@@ -1,0 +1,18 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+<h1 style="margin: 20px 0 0 0;">Add Review</h1>
+<hr>
+{% from "includes/_formhelpers.html" import render_field %}
+<form method="POST" action="">
+    <div class="form-group">
+        {{ form.course_num.label() }}
+        {{ form.course_num(class="form-control", placeholder="CS161") }}
+    </div>
+    <div class="form-group" style="margin: 10px 0 0 0">
+        {{ render_field(form.content, class_="form-control", id="editor") }}
+    </div>
+    <input class="btn btn-primary" type="submit" value="Submit"
+           style="margin: 10px 0 0 0; background-color:#C34500; border-color:#C34500">
+</form>
+{% endblock %}
