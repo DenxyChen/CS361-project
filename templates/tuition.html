@@ -1,0 +1,65 @@
+<!doctype html>
+{% extends 'layout.html' %}
+<html lang="en">
+
+<body>
+<main>
+    {% block body %}
+    <h2 style="margin: 30px 0 0 0; padding: 6px; text-align: center; font-family:georgia, serif;"
+        class="osu-black-bg white-text">Calculator
+        result</h2>
+    <style>
+
+        #estimated-results {
+            display: grid;
+            grid-template-columns: 35% 60%;
+            align-items: start;
+            grid-column-gap: 1em;
+            justify-items: start;
+            margin-bottom: 25px;
+        }
+
+        #estimated-results div {
+            font-size: 1.4rem;
+            width: 100%;
+            line-height: 1.8;
+        }
+
+        #estimated-results div:nth-child(odd) {
+            text-align: right;
+            font-weight: 600;
+        }
+
+    </style>
+    <div class="col-lg-6 col-md-8 mx-auto">
+        <div style="background-color: #eeeeee; border: solid 1px #373737; margin: 0 0 40px 0; padding: 15px 15px 5px 15px;">
+            <h2 style="margin-top:0;margin-bottom:20px; font-size:20px; font-family:georgia, serif;color:#006a8e">
+                Estimated cost of tuition in your currency</h2>
+            <div id="estimated-results" style="font-size:18px">
+                <div style="font-size:17px">Program:</div>
+                <div style="font-size:17px">Computer Science</div>
+                <div style="font-size:17px">Cost per credit:</div>
+                <div style="font-size:17px">$527</div>
+                <div style="font-size:17px">Total credits:</div>
+                <div style="font-size:17px">60</div>
+            </div>
+
+            <form method="POST">
+                <input type="text" autofocus="autofocus" name="currency" placeholder="USD CNY 527"
+                       style="margin: 10px 0 0 130px;" required/>
+                <input type="submit" formaction="/currencyConvert" value="Click to Convert"
+                       title="Hongliu's currency converting service">
+            </form>
+            <form method="POST">
+                <input type="submit" formaction="/convertResult" value="Show result" style="margin: 20px 0 0 200px;background-color:#C34500; border-color:#C34500; color:#ffffff">
+                <p style="margin: 10px 0 0 120px;">Cost of tuition in your selected currency is: {{input}}</p>
+            </form>
+        </div>
+    </div>
+    {% endblock %}
+</main>
+
+<script src="/static/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
+<!--https://stackoverflow.com/questions/54416318/how-to-make-a-undo-redo-function-->
