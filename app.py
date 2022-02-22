@@ -31,6 +31,7 @@ class reviews(db.Model):
 #########################################################################
 
 ############################### FORMS ###################################
+
 def choice_query():
     return courses.query
 
@@ -43,15 +44,10 @@ class PostForm(Form):
     course_num = StringField(label='Title:')
     content = TextAreaField('Content', [validators.DataRequired()])
 
-
-class Form(Form):
-    course_num = StringField(label='Title:')
-    content = TextAreaField('Content', [validators.DataRequired()])
-
-
 ##########################################################################
 
 ################ IMPLEMENTING CURRENCY CONVERTER SERVICE #################
+
 @app.route('/currencyConvert', methods=['POST'])
 def currency_convert():
     form = request.form
@@ -80,6 +76,22 @@ def tuition():
 
 
 ###########################################################################
+
+############################# ADD REVIEW SERVICE ##########################
+
+@app.route('/add_review', methods=['GET', 'POST'])
+def add_review():
+    form = PostForm(request.form)
+    if request.method == "POST":
+        post = reviews(num=form.course_num.data, review=form.content.data)
+        db.session.add(post)
+        db.session.commit()
+        flash('Your review has been added ', 'success')
+        return redirect(url_for('courses_page'))
+    return render_template('add_review.html', form=form)
+
+###########################################################################
+
 @app.route('/', methods=['GET', 'POST'])
 def home_page():
     form_selection = ChoiceForm()
@@ -111,18 +123,6 @@ def search():
         search = "%{0}%".format(search_value)
         results = courses.query.filter(courses.num.like(search)).all()
         return render_template('home.html', results=results)
-
-
-@app.route('/add_review', methods=['GET', 'POST'])
-def add_review():
-    form = PostForm(request.form)
-    if request.method == "POST":
-        post = reviews(num=form.course_num.data, review=form.content.data)
-        db.session.add(post)
-        db.session.commit()
-        flash('Your review has been added ', 'success')
-        return redirect(url_for('courses_page'))
-    return render_template('add_review.html', form=form)
 
 
 @app.route('/delete_review/<string:id>', methods=['POST'])
